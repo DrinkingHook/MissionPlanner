@@ -2169,15 +2169,15 @@ namespace MissionPlanner
 
         [GroupText("EFI")]
         [DisplayFieldNameAttribute("efi_baro.Field")]
-        [DisplayText("EFI Baro Pressure (kPa)")]
+        [DisplayText("滑油压力 (kPa)")]
         public float efi_baro { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_headtemp.Field")]
-        [DisplayText("EFI Head Temp (C)")]
+        [DisplayText("缸温 (C)")]
         public float efi_headtemp { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_load.Field")]
-        [DisplayText("EFI Load (%)")]
+        [DisplayText("涡轮压力 (kpa)")]
         public float efi_load { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_health.Field")]
@@ -2185,11 +2185,11 @@ namespace MissionPlanner
         public byte efi_health { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldNameAttribute("efi_exhasttemp.Field")]
-        [DisplayText("EFI Exhast Temp (C)")]
+        [DisplayText("水温(C)")]
         public float efi_exhasttemp { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_intaketemp.Field")]
-        [DisplayText("EFI Intake Temp (C)")]
+        [DisplayText("油温 (C)")]
         public float efi_intaketemp { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_rpm.Field")]

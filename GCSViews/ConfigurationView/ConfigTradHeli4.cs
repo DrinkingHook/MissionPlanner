@@ -100,6 +100,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     new ItemInfo {name = "H_COL_ANG_MAX", type = uitype.Num},
                     new ItemInfo {name = "H_COL_ZERO_THRST", type = uitype.Num},
                     new ItemInfo {name = "H_COL_LAND_MIN", type = uitype.Num},
+                    new ItemInfo {name = "H_COL_2_MAX", type = uitype.Num },
+                    new ItemInfo {name = "H_COL_2_MIN", type = uitype.Num },
                 };
 
                 current = tableLayoutPanel5;

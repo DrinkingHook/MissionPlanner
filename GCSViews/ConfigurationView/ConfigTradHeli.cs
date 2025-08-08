@@ -92,6 +92,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             H_COL_MIN.setup(800, 2200, 1, 1, "H_COL_MIN", MainV2.comPort.MAV.param);
             H_COL_MID.setup(800, 2200, 1, 1, "H_COL_MID", MainV2.comPort.MAV.param);
             H_COL_MAX.setup(800, 2200, 1, 1, "H_COL_MAX", MainV2.comPort.MAV.param);
+            H_COL_MID.setup(800, 2200, 1, 1, "H_COL_2_MIN", MainV2.comPort.MAV.param);
+            H_COL_MAX.setup(800, 2200, 1, 1, "H_COL_2_MAX", MainV2.comPort.MAV.param);
             HS4_MIN.setup(800, 2200, 1, 1, new string[] { "HS4_MIN", "SERVO4_MIN" }, MainV2.comPort.MAV.param);
             HS4_MAX.setup(800, 2200, 1, 1, new string[] { "HS4_MAX", "SERVO4_MAX" }, MainV2.comPort.MAV.param);
             H_SV1_POS.setup(-180, 180, 1, 1, "H_SV1_POS", MainV2.comPort.MAV.param);

@@ -167,11 +167,11 @@ namespace MissionPlanner
             // 
             // MenuHelp
             // 
-            this.MenuHelp.ForeColor = System.Drawing.SystemColors.ControlLight;
-            resources.ApplyResources(this.MenuHelp, "MenuHelp");
-            this.MenuHelp.Margin = new System.Windows.Forms.Padding(0);
-            this.MenuHelp.Name = "MenuHelp";
-            this.MenuHelp.Click += new System.EventHandler(this.MenuHelp_Click);
+            //this.MenuHelp.ForeColor = System.Drawing.SystemColors.ControlLight;
+            //resources.ApplyResources(this.MenuHelp, "MenuHelp");
+            //this.MenuHelp.Margin = new System.Windows.Forms.Padding(0);
+            //this.MenuHelp.Name = "MenuHelp";
+            //this.MenuHelp.Click += new System.EventHandler(this.MenuHelp_Click);
             // 
             // MenuConnect
             // 

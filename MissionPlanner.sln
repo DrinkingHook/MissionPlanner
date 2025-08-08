@@ -225,6 +225,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockDroneID", "ExtLibs\Mock
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerrainMakerPlugin", "Plugins\TerrainMakerPlugin\TerrainMakerPlugin.csproj", "{DDD2FEA8-801E-463B-8913-9CCCDA2D9429}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MP", "..\MP\MP.csproj", "{F8F3D08D-EEB7-4148-AABA-D6E5BA89C1D8}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "..\..\Setup1\Setup1.vdproj", "{030A125C-45AE-BD3F-BF3F-357289EE2F9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -556,6 +560,14 @@ Global
 		{DDD2FEA8-801E-463B-8913-9CCCDA2D9429}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDD2FEA8-801E-463B-8913-9CCCDA2D9429}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDD2FEA8-801E-463B-8913-9CCCDA2D9429}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8F3D08D-EEB7-4148-AABA-D6E5BA89C1D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8F3D08D-EEB7-4148-AABA-D6E5BA89C1D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8F3D08D-EEB7-4148-AABA-D6E5BA89C1D8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F8F3D08D-EEB7-4148-AABA-D6E5BA89C1D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8F3D08D-EEB7-4148-AABA-D6E5BA89C1D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8F3D08D-EEB7-4148-AABA-D6E5BA89C1D8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{030A125C-45AE-BD3F-BF3F-357289EE2F9D}.Debug|Any CPU.ActiveCfg = Debug
+		{030A125C-45AE-BD3F-BF3F-357289EE2F9D}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

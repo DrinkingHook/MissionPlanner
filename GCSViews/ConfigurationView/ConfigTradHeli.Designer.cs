@@ -49,6 +49,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label1 = new System.Windows.Forms.Label();
             this.H_COL_MID = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.H_COL_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.H_COL_2_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.H_COL_2_MIN = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label24 = new System.Windows.Forms.Label();
             this.HS4_MIN = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -150,6 +152,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.H_COL_MID)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.H_COL_MAX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.H_COL_2_MIN)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.H_COL_2_MAX)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HS4_MIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HS4_MAX)).BeginInit();
@@ -311,6 +315,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.H_COL_MIN.Validating += new System.ComponentModel.CancelEventHandler(this.PWM_Validating);
+            //
+            // H_COL_2_MIN
+            //
+            resources.ApplyResources(this.H_COL_2_MIN, "H_COL_2_MIN");
+            this.H_COL_2_MIN.Max = 1F;
+            this.H_COL_2_MIN.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.H_COL_2_MIN.Min = 0F;
+            this.H_COL_2_MIN.Name = "H_COL_2_MIN";
+            this.H_COL_2_MIN.ParamName = null;
+            this.H_COL_2_MIN.Value = new decimal(new int[] {
+            1500,
+            0,
+            0,
+            0});
+            this.H_COL_2_MIN.Validating += new System.ComponentModel.CancelEventHandler(this.PWM_Validating);
             // 
             // groupBox1
             // 
@@ -368,6 +391,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.H_COL_MAX.Enter += new System.EventHandler(this.COL_MAX__Enter);
             this.H_COL_MAX.Leave += new System.EventHandler(this.COL_MAX__Leave);
             this.H_COL_MAX.Validating += new System.ComponentModel.CancelEventHandler(this.PWM_Validating);
+            // 
+            // H_COL_2_MAX
+            // 
+            resources.ApplyResources(this.H_COL_2_MAX, "H_COL_2_MAX");
+            this.H_COL_2_MAX.Max = 1F;
+            this.H_COL_2_MAX.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+            this.H_COL_2_MAX.Min = 0F; 
+            this.H_COL_2_MAX.Name = "H_COL_2_MAX";
+            this.H_COL_2_MAX.ParamName = null;
+            this.H_COL_2_MAX.Value = new decimal(new int[] {
+            1500,
+            0,
+            0,
+            0});
+            this.H_COL_2_MAX.Enter += new System.EventHandler(this.COL_MAX__Enter);
+            this.H_COL_2_MAX.Leave += new System.EventHandler(this.COL_MAX__Leave);
+            this.H_COL_2_MAX.Validating += new System.ComponentModel.CancelEventHandler(this.PWM_Validating);
             // 
             // groupBox2
             // 
@@ -1494,6 +1538,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.GroupBox groupBox1;
         private MavlinkNumericUpDown H_COL_MID;
         private MavlinkNumericUpDown H_COL_MAX;
+        private MavlinkNumericUpDown H_COL_2_MAX;
+        private MavlinkNumericUpDown H_COL_2_MIN;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label24;
         private MavlinkNumericUpDown HS4_MIN;

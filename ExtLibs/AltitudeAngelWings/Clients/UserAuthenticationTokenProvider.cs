@@ -34,42 +34,42 @@ namespace AltitudeAngelWings.Clients
             await _lock.WaitAsync(cancellationToken);
             try
             {
-                if (_settings.TokenResponse.IsValidForAuth())
-                {
+                //if (_settings.TokenResponse.IsValidForAuth())
+                //{
                     return _settings.TokenResponse.AccessToken;
-                }
+                //}
 
-                if (_settings.TokenResponse.CanBeRefreshed())
-                {
-                    try
-                    {
-                        await _messagesService.AddMessageAsync(Message.ForInfo("Refreshing Altitude Angel access token."));
-                        _settings.TokenResponse = await _authClient.GetTokenFromRefreshToken(_settings.TokenResponse.RefreshToken, cancellationToken);
-                        return _settings.TokenResponse.AccessToken;
-                    }
-                    catch (Exception)
-                    {
-                        // Ignore and try asking user
-                    }
-                }
+                //if (_settings.TokenResponse.CanBeRefreshed())
+                //{
+                //    try
+                //    {
+                //        await _messagesService.AddMessageAsync(Message.ForInfo("Refreshing Altitude Angel access token."));
+                //        _settings.TokenResponse = await _authClient.GetTokenFromRefreshToken(_settings.TokenResponse.RefreshToken, cancellationToken);
+                //        return _settings.TokenResponse.AccessToken;
+                //    }
+                //    catch (Exception)
+                //    {
+                //        // Ignore and try asking user
+                //    }
+                //}
 
-                if (_service.Value.SigningIn)
-                {
-                    return await AskUserForAccessToken(cancellationToken);
-                }
-                else
-                {
-                    await _messagesService.AddMessageAsync(Message.ForAction(
-                        "AskToSignIn",
-                        "You need to sign into Altitude Angel. Click here to sign in.",
-                        () => Task.Factory.StartNew(() => AskUserForAccessToken(CancellationToken.None), cancellationToken),
-                        () => _settings.TokenResponse.IsValidForAuth()));
-                    return null;
-                }
+                //if (_service.Value.SigningIn)
+                //{
+                //    return await AskUserForAccessToken(cancellationToken);
+                //}
+                //else
+                //{
+                //    await _messagesService.AddMessageAsync(Message.ForAction(
+                //        "AskToSignIn",
+                //        "You need to sign into Altitude Angel. Click here to sign in.",
+                //        () => Task.Factory.StartNew(() => AskUserForAccessToken(CancellationToken.None), cancellationToken),
+                //        () => _settings.TokenResponse.IsValidForAuth()));
+                //    return null;
+                //}
             }
             finally
             {
-                _lock.Release();
+                //_lock.Release();
             }
         }
 
@@ -83,15 +83,16 @@ namespace AltitudeAngelWings.Clients
             parameters.Add("scope", string.Join(" ", _settings.ClientScopes));
             parameters.Add("response_type", "code");
             _provider.GetAuthorizeParameters(parameters);
-            
+
             var authCode = await _provider.GetAuthorizeCode(
                 FormatCodeAuthorizeUri(
-                    new Uri($"{_settings.AuthenticationUrl}/oauth/v2/authorize"),
+                    new Uri($"{_settings.AuthenticationUrl}"),
                     parameters));
 
             _settings.TokenResponse = await _authClient.GetTokenFromAuthorizationCode(authCode, cancellationToken);
             _service.Value.IsSignedIn.Value = _settings.TokenResponse.IsValidForAuth();
             return _settings.TokenResponse.AccessToken;
+            //return null; // Placeholder for actual implementation
         }
 
         private static Uri FormatCodeAuthorizeUri(Uri baseUri, NameValueCollection parameters)
