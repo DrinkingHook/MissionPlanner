@@ -92,8 +92,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             H_COL_MIN.setup(800, 2200, 1, 1, "H_COL_MIN", MainV2.comPort.MAV.param);
             H_COL_MID.setup(800, 2200, 1, 1, "H_COL_MID", MainV2.comPort.MAV.param);
             H_COL_MAX.setup(800, 2200, 1, 1, "H_COL_MAX", MainV2.comPort.MAV.param);
-            H_COL_MID.setup(800, 2200, 1, 1, "H_COL_2_MIN", MainV2.comPort.MAV.param);
-            H_COL_MAX.setup(800, 2200, 1, 1, "H_COL_2_MAX", MainV2.comPort.MAV.param);
+            //H_COL2_MIN.setup(800, 2200, 1, 1, "H_COL2_MIN", MainV2.comPort.MAV.param);
+            //H_COL2_MAX.setup(800, 2200, 1, 1, "H_COL2_MAX", MainV2.comPort.MAV.param);
             HS4_MIN.setup(800, 2200, 1, 1, new string[] { "HS4_MIN", "SERVO4_MIN" }, MainV2.comPort.MAV.param);
             HS4_MAX.setup(800, 2200, 1, 1, new string[] { "HS4_MAX", "SERVO4_MAX" }, MainV2.comPort.MAV.param);
             H_SV1_POS.setup(-180, 180, 1, 1, "H_SV1_POS", MainV2.comPort.MAV.param);
@@ -228,8 +228,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             double posx = map(MainV2.comPort.MAV.cs.ch6out, MainV2.comPort.MAV.param["H_COL_MIN"].Value,
                 MainV2.comPort.MAV.param["H_COL_MAX"].Value, 0, 100);
 
+            //double posx2 = map(MainV2.comPort.MAV.cs.ch6out, MainV2.comPort.MAV.param["H_COL2_MIN"].Value,
+            //    MainV2.comPort.MAV.param["H_COL2_MAX"].Value, 0, 100);
+
             // set current marker
             var m_cursorLine = new LineObj(Color.Black, posx, 0, posx, 1);
+
+            //var m_cursorLine2 = new LineObj(Color.Black, posx2, 0, posx2, 1);
 
             m_cursorLine.Location.CoordinateFrame = CoordType.XScaleYChartFraction; // This do the trick !
             m_cursorLine.IsClippedToChartRect = true;
@@ -238,6 +243,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             m_cursorLine.Line.Color = Color.Red;
             m_cursorLine.ZOrder = ZOrder.E_BehindCurves;
             zedGraphControl1.GraphPane.GraphObjList.Add(m_cursorLine);
+
+            //m_cursorLine2.Location.CoordinateFrame = CoordType.XScaleYChartFraction; // This do the trick !
+            //m_cursorLine2.IsClippedToChartRect = true;
+            //m_cursorLine2.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+            //m_cursorLine2.Line.Width = 2f;
+            //m_cursorLine2.Line.Color = Color.Red;
+            //m_cursorLine2.ZOrder = ZOrder.E_BehindCurves;
+            //zedGraphControl1.GraphPane.GraphObjList.Add(m_cursorLine2);
 
             try
             {
