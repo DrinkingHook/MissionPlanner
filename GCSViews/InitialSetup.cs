@@ -170,15 +170,15 @@ namespace MissionPlanner.GCSViews
                         isConnected);
                     AddBackstageViewPage(typeof(ConfigFirmwareManifest), rm.GetString("backstageViewPagefw.Text"),
                         isDisConnected);
-                    AddBackstageViewPage(typeof(ConfigFirmware), rm.GetString("backstageViewPagefw.Text") + " Legacy",
-                        isDisConnected);
+                    //AddBackstageViewPage(typeof(ConfigFirmware), rm.GetString("backstageViewPagefw.Text") + " Legacy",
+                    //    isDisConnected);
                 }
             }
 
             AddBackstageViewPage(typeof(ConfigSecureAP), "Secure",
                 isDisConnected);
 
-
+           
             var mand = AddBackstageViewPage(typeof(ConfigMandatory), rm.GetString("backstageViewPagemand.Text"), isConnected && gotAllParams);
 
             if (MainV2.DisplayConfiguration.displayFrameType)

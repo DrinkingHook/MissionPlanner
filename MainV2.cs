@@ -1338,6 +1338,33 @@ namespace MissionPlanner
             MyView.ShowScreen("Simulation");
         }
 
+        // 创建一个新的窗体类，承载 ConfigTradHeli4
+        public class ConfigHeliForm : Form
+        {
+            public ConfigHeliForm()
+            {
+                // 初始化窗体的基本设置
+                //InitializeComponent1();
+
+                // 创建 ConfigTradHeli4 控件实例
+                var heliConfigControl = new ConfigTradHeli4();
+
+                // 将 ConfigTradHeli4 控件添加到窗体中
+                heliConfigControl.Dock = DockStyle.Fill;  // 使其填充整个窗体
+                this.Controls.Add(heliConfigControl);
+                heliConfigControl.Activate();  // 确保 Activate 方法被执行
+            }
+        }
+
+        private void MenuHeliSetup_Click(object sender, EventArgs e)
+        {
+            // 创建父窗体实例
+            var heliConfigForm = new ConfigHeliForm();
+
+            // 显示该窗体
+            heliConfigForm.ShowDialog();  // 显示为模态窗口，阻塞后续操作，或者使用 Show() 进行非模态显示
+        }
+
         private void MenuTuning_Click(object sender, EventArgs e)
         {
             if (Settings.Instance.GetBoolean("password_protect") == false)
