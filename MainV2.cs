@@ -46,6 +46,7 @@ using System.Numerics;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using static MAVLink;
 using DroneCAN;
+using MissionPlanner.GCSViews;
 
 namespace MissionPlanner
 {
@@ -597,7 +598,7 @@ namespace MissionPlanner
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
-            MenuHelp.Visible = DisplayConfiguration.displayHelp;
+            //MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
             // force autohide on
@@ -1170,6 +1171,7 @@ namespace MissionPlanner
             MenuConfigTune.Image = displayicons.config_tuning;
             MenuConnect.Image = displayicons.connect;
             //MenuHelp.Image = displayicons.help;
+            MenuHeliSetup.Image = displayicons.help;
 
 
             MenuFlightData.ForeColor = ThemeManager.TextColor;
@@ -1178,7 +1180,8 @@ namespace MissionPlanner
             MenuSimulation.ForeColor = ThemeManager.TextColor;
             MenuConfigTune.ForeColor = ThemeManager.TextColor;
             MenuConnect.ForeColor = ThemeManager.TextColor;
-            MenuHelp.ForeColor = ThemeManager.TextColor;
+            //MenuHelp.ForeColor = ThemeManager.TextColor;
+            MenuHeliSetup.ForeColor = ThemeManager.TextColor;
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
@@ -1355,14 +1358,25 @@ namespace MissionPlanner
                 heliConfigControl.Activate();  // 确保 Activate 方法被执行
             }
         }
+        InitialSetup initialSetup = new GCSViews.InitialSetup();
+
 
         private void MenuHeliSetup_Click(object sender, EventArgs e)
         {
-            // 创建父窗体实例
-            var heliConfigForm = new ConfigHeliForm();
 
-            // 显示该窗体
-            heliConfigForm.ShowDialog();  // 显示为模态窗口，阻塞后续操作，或者使用 Show() 进行非模态显示
+            bool result = initialSetup.isHeli;
+            bool result1 = initialSetup.gotAllParams;
+            if (result && result1) { 
+            // 创建父窗体实例
+                var heliConfigForm = new ConfigHeliForm();
+                // 显示该窗体
+                heliConfigForm.Show();  // 显示为模态窗口，阻塞后续操作，或者使用 Show() 进行非模态显示
+            }
+            else
+            {
+                MessageBox.Show("请先连接飞控");
+            }
+
         }
 
         private void MenuTuning_Click(object sender, EventArgs e)
