@@ -270,25 +270,25 @@ namespace MissionPlanner
                 Splash.pictureBox1.Visible = false;
             }
 
-            Console.WriteLine("IconFile");
-            if (IconFile != null)
-                Splash.Icon = Icon.FromHandle(((Bitmap) IconFile).GetHicon());
+            //Console.WriteLine("IconFile");
+            //if (IconFile != null)
+            //    Splash.Icon = Icon.FromHandle(((Bitmap)IconFile).GetHicon());
 
-            string strVersion = File.Exists("version.txt")
-                ? File.ReadAllText("version.txt")
-                : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
-            Console.WriteLine("Splash.Show()");
-            Splash.Show();
+            //string strVersion = File.Exists("version.txt")
+            //    ? File.ReadAllText("version.txt")
+            //    : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            //Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
+            //Console.WriteLine("Splash.Show()");
+            //Splash.Show();
 
-            Console.WriteLine("Debugger.IsAttached " + Debugger.IsAttached);
-            if (Debugger.IsAttached)
-                Splash.TopMost = false;
+            //Console.WriteLine("Debugger.IsAttached " + Debugger.IsAttached);
+            //if (Debugger.IsAttached)
+            //    Splash.TopMost = false;
 
-            Console.WriteLine("Application.DoEvents");
-            Application.DoEvents();
-            Console.WriteLine("Application.DoEvents");
-            Application.DoEvents();
+            //Console.WriteLine("Application.DoEvents");
+            //Application.DoEvents();
+            //Console.WriteLine("Application.DoEvents");
+            //Application.DoEvents();
 
             CustomMessageBox.ShowEvent += (text, caption, buttons, icon, yestext, notext) =>
             {
@@ -471,10 +471,8 @@ namespace MissionPlanner
             catch (Exception ex)
             {
                 log.Fatal("Fatal app exception", ex);
-                Console.WriteLine(ex.ToString());
-
-                Console.WriteLine("\nPress any key to exit!");
-                Console.ReadLine();
+                MessageBox.Show("程序发生致命错误：" + ex.Message + "\n" + ex.StackTrace, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
             }
 
             try

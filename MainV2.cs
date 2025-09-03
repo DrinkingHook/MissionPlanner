@@ -72,6 +72,7 @@ namespace MissionPlanner
             public abstract Image disconnect { get; }
             public abstract Image bg { get; }
             public abstract Image wizard { get; }
+            public abstract Image HeliSetup { get; }
         }
 
 
@@ -153,7 +154,16 @@ namespace MissionPlanner
                         return global::MissionPlanner.Properties.Resources.light_help_icon;
                 }
             }
-
+            public override Image HeliSetup
+            {
+                get
+                {
+                    if (File.Exists($"{running_directory}Double_rotor.png"))
+                        return Image.FromFile($"{running_directory}Double_rotor.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.Double_rotor;
+                }
+            }
             public override Image donate
             {
                 get
@@ -291,6 +301,16 @@ namespace MissionPlanner
                 }
             }
 
+            public override Image HeliSetup
+            {
+                get
+                {
+                    if (File.Exists($"{running_directory}Double_rotor.png"))
+                        return Image.FromFile($"{running_directory}Double_rotor.png");
+                    else
+                        return global::MissionPlanner.Properties.Resources.Double_rotor;
+                }
+            }
             public override Image donate
             {
                 get
@@ -1072,7 +1092,10 @@ namespace MissionPlanner
 
             if (Program.IconFile != null)
             {
-                this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
+                //this.Icon = Icon.FromHandle(((Bitmap) Program.IconFile).GetHicon());
+                this.Icon = new Icon("logo11.ico");
+
+
             }
 
             MenuArduPilot.Image = new Bitmap(Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70,
@@ -1171,7 +1194,7 @@ namespace MissionPlanner
             MenuConfigTune.Image = displayicons.config_tuning;
             MenuConnect.Image = displayicons.connect;
             //MenuHelp.Image = displayicons.help;
-            MenuHeliSetup.Image = displayicons.help;
+            MenuHeliSetup.Image = displayicons.HeliSetup;
 
 
             MenuFlightData.ForeColor = ThemeManager.TextColor;
