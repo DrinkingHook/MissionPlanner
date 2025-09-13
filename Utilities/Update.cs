@@ -180,34 +180,34 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            if (updateFound)
-            {
-                // do the update in the main thread
-                MainV2.instance.Invoke((Action)delegate
-               {
-                   string extra = "";
+            //if (updateFound)
+            //{
+            //    // do the update in the main thread
+            //    MainV2.instance.Invoke((Action)delegate
+            //   {
+            //       string extra = "";
 
-                   if (dobeta)
-                       extra = "BETA ";
+            //       if (dobeta)
+            //           extra = "BETA ";
 
-                   var dr = CustomMessageBox.Show(
-                       extra + Strings.UpdateFound + " [link;" + baseurl.Replace("version.txt", "ChangeLog.txt") + ";ChangeLog]",
-                       Strings.UpdateNow, MessageBoxButtons.YesNo);
+            //       var dr = CustomMessageBox.Show(
+            //           extra + Strings.UpdateFound + " [link;" + baseurl.Replace("version.txt", "ChangeLog.txt") + ";ChangeLog]",
+            //           Strings.UpdateNow, MessageBoxButtons.YesNo);
 
-                   if (dr == (int)DialogResult.Yes)
-                   {
-                       DoUpdate();
-                   }
-                   else
-                   {
-                       return;
-                   }
-               });
-            }
-            else if (NotifyNoUpdate)
-            {
-                CustomMessageBox.Show(Strings.UpdateNotFound);
-            }
+            //       if (dr == (int)DialogResult.Yes)
+            //       {
+            //           DoUpdate();
+            //       }
+            //       else
+            //       {
+            //           return;
+            //       }
+            //   });
+            //}
+            //else if (NotifyNoUpdate)
+            //{
+            //    CustomMessageBox.Show(Strings.UpdateNotFound);
+            //}
         }
 
         public static void DoUpdate()

@@ -2201,7 +2201,7 @@ namespace MissionPlanner
         public float efi_fuelflow { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelconsumed.Field")]
-        [DisplayText("EFI Fuel Consumed (cm3)")]
+        [DisplayText("油位高度（cm）")]
         public float efi_fuelconsumed { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelpressure.Field")]

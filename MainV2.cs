@@ -1744,29 +1744,29 @@ namespace MissionPlanner
 
                             var softwares = APFirmware.GetReleaseNewest(APFirmware.RELEASE_TYPES.OFFICIAL);
 
-                            foreach (var item in softwares)
-                            {
+                            //foreach (var item in softwares)
+                            //{
                                 // check primare firmware type. ie arudplane, arducopter
-                                if (fields1[0].ToLower().Contains(item.VehicleType.ToLower()))
-                                {
-                                    Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
-                                    Version ver2 = item.MavFirmwareVersion;
+                                //if (fields1[0].ToLower().Contains(item.VehicleType.ToLower()))
+                                //{
+                                //    Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
+                                //    Version ver2 = item.MavFirmwareVersion;
 
-                                    if (ver2 > ver1)
-                                    {
-                                        Common.MessageShowAgain(Strings.NewFirmware + "-" + item.VehicleType + " " + ver2,
-                                            Strings.NewFirmwareA + item.VehicleType + " " + ver2 + Strings.Pleaseup +
-                                            "[link;https://discuss.ardupilot.org/tags/stable-release;Release Notes]");
-                                        break;
-                                    }
+                                    //if (ver2 > ver1)
+                                    //{
+                                    //    Common.MessageShowAgain(Strings.NewFirmware + "-" + item.VehicleType + " " + ver2,
+                                    //        Strings.NewFirmwareA + item.VehicleType + " " + ver2 + Strings.Pleaseup +
+                                    //        "[link;https://discuss.ardupilot.org/tags/stable-release;Release Notes]");
+                                    //    break;
+                                    //}
 
                                     // check the first hit only
-                                    break;
-                                }
-                            }
+                                //    break;
+                                //}
+                            //}
 
                             // load version specific config
-                            ParameterMetaDataRepositoryAPMpdef.GetMetaDataVersioned(VersionDetection.GetVersion(comPort.MAV.VersionString));
+                            //ParameterMetaDataRepositoryAPMpdef.GetMetaDataVersioned(VersionDetection.GetVersion(comPort.MAV.VersionString));
                         }
                         catch (Exception ex)
                         {
