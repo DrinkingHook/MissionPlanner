@@ -2144,9 +2144,11 @@ namespace MissionPlanner
         [GroupText("Software")] public Version version { get; set; }
         [GroupText("Software")] public ulong uid { get; set; }
         [GroupText("Software")] public string uid2 { get; set; }
-        [GroupText("Sensor")] public float rpm1 { get; set; }
+        [GroupText("Sensor")][DisplayText("发动机转速")] public float rpm1 { get; set; }
 
-        [GroupText("Sensor")] public float rpm2 { get; set; }
+        [GroupText("Sensor")][DisplayText("旋翼转速")] public float rpm2 { get; set; }
+
+        [GroupText("Sensor")][DisplayText("离合器状态")] public float disengagement_status { get; set; }
 
         [GroupText("Software")] public uint capabilities { get; set; }
 
@@ -2169,15 +2171,15 @@ namespace MissionPlanner
 
         [GroupText("EFI")]
         [DisplayFieldNameAttribute("efi_baro.Field")]
-        [DisplayText("滑油压力 (kPa)")]
+        [DisplayText("EFI Baro Pressure (kPa)")]
         public float efi_baro { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_headtemp.Field")]
-        [DisplayText("缸温 (C)")]
+        [DisplayText("EFI Head Temp (C)")]
         public float efi_headtemp { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_load.Field")]
-        [DisplayText("涡轮压力 (kpa)")]
+        [DisplayText("EFI Load (%)")]
         public float efi_load { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_health.Field")]
@@ -2185,11 +2187,11 @@ namespace MissionPlanner
         public byte efi_health { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldNameAttribute("efi_exhasttemp.Field")]
-        [DisplayText("水温(C)")]
+        [DisplayText("EFI Exhast Temp (C)")]
         public float efi_exhasttemp { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_intaketemp.Field")]
-        [DisplayText("油温 (C)")]
+        [DisplayText("EFI Intake Temp (C)")]
         public float efi_intaketemp { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_rpm.Field")]
@@ -2201,12 +2203,73 @@ namespace MissionPlanner
         public float efi_fuelflow { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelconsumed.Field")]
-        [DisplayText("油位高度（cm）")]
+        [DisplayText("EFI Fuel Consumed (cm3)")]
         public float efi_fuelconsumed { get; private set; }
         [GroupText("EFI")]
         [DisplayFieldName("efi_fuelpressure.Field")]
         [DisplayText("EFI Fuel Pressure (kPa)")]
         public float efi_fuelpressure { get; private set; }
+
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_Turbo_pressure.Field")]
+        [DisplayText("涡轮压力")]
+        public float carb_Turbo_pressure { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_air_fuel_ratio.Field")]
+        [DisplayText("空燃比")]
+        public float carb_air_fuel_ratio { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_oil_pressure.Field")]
+        [DisplayText("滑油压力")]
+        public float carb_oil_pressure { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_cht1.Field")]
+        [DisplayText("排气温度1")]
+        public float carb_cht1 { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_cht2.Field")]
+        [DisplayText("排气温度2")]
+        public float carb_cht2 { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_cht3.Field")]
+        [DisplayText("排气温度3")]
+        public float carb_cht3 { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_cht4.Field")]
+        [DisplayText("排气温度4")]
+        public float carb_cht4 { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_oiltemp.Field")]
+        [DisplayText("油温")]
+        public float carb_oiltemp { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_watertemp.Field")]
+        [DisplayText("水温")]
+        public float carb_watertemp { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_lube_pressure.Field")]
+        [DisplayText("滑油压力")]
+        public float carb_lube_pressure { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_fuel_quantity.Field")]
+        [DisplayText("油位高度")]
+        public float carb_fuel_quantity { get; private set; }
+
+        [GroupText("engine")]
+        [DisplayFieldName("carb_GBOT.Field")]
+        [DisplayText("减速箱油温")]
+        public float carb_GBOT { get; private set; }
 
         [GroupText("Transponder Status")]
         [DisplayText("Transponder 1090ES Tx Enabled")]
@@ -2774,6 +2837,26 @@ namespace MissionPlanner
                                     efi_fuelpressure = efi.fuel_pressure;
                                 }
                             }
+                        }
+                        break;
+
+                    case (uint)MAVLink.MAVLINK_MSG_ID.ENGINE_STATUS:
+                        {
+                            var engine = mavLinkMessage.ToStructure<MAVLink.mavlink_engine_status_t>();
+                            carb_oiltemp = engine.oil_temp;//油温
+                            efi_load = engine.oil_pressure; 
+                            // efi_health = efi.health;
+                            // efi_exhasttemp = efi.exhaust_gas_temperature;
+                            carb_watertemp = engine.coolant_temp;//水温
+                            carb_lube_pressure = engine.lube_pressure/45.45f; //滑油压力
+                            // efi_fuelflow = efi.fuel_flow;
+                            carb_cht1 = engine.egt[0];
+                            carb_cht2 = engine.egt[1];
+                            carb_cht3 = engine.egt[2];
+                            carb_cht4 = engine.egt[3];
+                            carb_fuel_quantity = engine.fuel_quantity;// 油位高度
+                            carb_Turbo_pressure = engine.turbo_pressure;// 涡轮压力
+                            carb_air_fuel_ratio = engine.lambda / 50.0f; //空燃比
                         }
                         break;
                     case (uint)MAVLink.MAVLINK_MSG_ID.POWER_STATUS:
@@ -3421,9 +3504,13 @@ namespace MissionPlanner
                         {
                             var rpm = mavLinkMessage.ToStructure<MAVLink.mavlink_rpm_t>();
 
-                            rpm1 = rpm.rpm1;
+                            rpm1 = rpm.rpm1 * 2.35f;
                             rpm2 = rpm.rpm2;
 
+                            if (rpm2 != -1 && rpm2 != 0)
+                            { 
+                                    disengagement_status = (rpm1/9.17f - rpm2);                 
+                            }
                             //MAVLink.packets[(byte)MAVLink.MSG_NAMES.NAV_CONTROLLER_OUTPUT);
                         }
 
