@@ -164,7 +164,7 @@ namespace MissionPlanner.GCSViews
         //List for setting colors of quick tab numbers
         List<Color> listQuickView = new List<Color>();
         //works well for dark background
-        Color[] colorsForDefaultQuickView = new Color[] { Color.Blue, Color.Yellow, Color.Pink, Color.LimeGreen, Color.Orange, Color.Aqua, Color.LightCoral, Color.LightSteelBlue, Color.DarkKhaki, Color.LightYellow, Color.Violet, Color.YellowGreen, Color.OrangeRed, Color.Tomato, Color.Teal, Color.CornflowerBlue };
+        Color[] colorsForDefaultQuickView = new Color[] { Color.Yellow, Color.Pink, Color.LimeGreen, Color.Orange, Color.Aqua, Color.LightCoral, Color.LightSteelBlue, Color.DarkKhaki, Color.LightYellow, Color.Violet, Color.YellowGreen, Color.OrangeRed, Color.Tomato, Color.Teal, Color.CornflowerBlue };
 
         Thread thisthread;
 
@@ -6119,9 +6119,12 @@ namespace MissionPlanner.GCSViews
         {
             (sender as Form).SaveStartupLocation();
             tabControlactions.Controls.Add(tabQuick);
+            tabControlactions.Controls.SetChildIndex(tabQuick, 0);  // 恢复到第一个位置
             tabControlactions.SelectedTab = tabQuick;
+            tabQuick.BorderStyle = BorderStyle.None;                  // 恢复原始边框样式
             tabQuickDetached = false;
             contextMenuStripQuickView.Items["undockToolStripMenuItem"].Visible = true;
+
         }
 
         private void IDENT_btn_Click(object sender, EventArgs e)
