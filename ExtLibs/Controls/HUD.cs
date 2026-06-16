@@ -224,6 +224,20 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayprearm { get; set; }
 
+        /// <summary>
+        /// Gets or sets a custom renderer that replaces the default EKF icon.
+        /// </summary>
+        [System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public IHudIconRenderer CustomEkfRenderer { get; set; }
+
+        /// <summary>
+        /// Gets or sets a custom renderer that replaces the default VIBE icon.
+        /// </summary>
+        [System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Hidden)]
+        public IHudIconRenderer CustomVibeRenderer { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayAOASSA { get; set; }
 
@@ -1191,13 +1205,17 @@ namespace MissionPlanner.Controls
 
             if (ekfhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                if (ekfclick != null)
+                if (CustomEkfRenderer != null)
+                    try { CustomEkfRenderer.OnClick(); } catch { }
+                else if (ekfclick != null)
                     ekfclick(this, null);
             }
 
             if (vibehitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                if (vibeclick != null)
+                if (CustomVibeRenderer != null)
+                    try { CustomVibeRenderer.OnClick(); } catch { }
+                else if (vibeclick != null)
                     vibeclick(this, null);
             }
 
@@ -1214,11 +1232,13 @@ namespace MissionPlanner.Controls
 
             if (ekfhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                Cursor.Current = Cursors.Hand;
+                if (CustomEkfRenderer == null || CustomEkfRenderer.ShowHandCursor)
+                    Cursor.Current = Cursors.Hand;
             }
             else if (vibehitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
             {
-                Cursor.Current = Cursors.Hand;
+                if (CustomVibeRenderer == null || CustomVibeRenderer.ShowHandCursor)
+                    Cursor.Current = Cursors.Hand;
             }
             else if (prearmhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)) && !status) // Only when not armed
             {
@@ -1376,14 +1396,14 @@ namespace MissionPlanner.Controls
 
                 float x = 0, y = 0;
                 int length = 0;
-                for (float i = start; i <= start + degrees; i++)
+                for (int i = 0; i <= degrees; i++)
                 {
-                    x = (float) Math.Sin(i * deg2rad) * rect.Width / 2;
-                    y = (float) Math.Cos(i * deg2rad) * rect.Height / 2;
+                    x = (float)Math.Sin((start + i) * deg2rad) * rect.Width / 2;
+                    y = (float)Math.Cos((start + i) * deg2rad) * rect.Height / 2;
                     x = x + rect.X + rect.Width / 2;
                     y = y + rect.Y + rect.Height / 2;
-                    vertices[(int)((i - start) * 2)] = x;
-                    vertices[(int)((i - start) * 2 + 1)] = y;
+                    vertices[i * 2] = x;
+                    vertices[i * 2 + 1] = y;
                     length += 2;
                     //GL.Vertex2(x, y);
                 }
@@ -1465,6 +1485,14 @@ namespace MissionPlanner.Controls
         private float _batterylevel2;
         private float _batteryremaining2;
         private float _current2;
+
+        /// <summary>
+        /// Draws text on the HUD at the specified screen-pixel coordinates.
+        /// </summary>
+        public void DrawString(string text, float fontsize, SolidBrush brush, float x, float y)
+        {
+            drawstring(text, font, fontsize, brush, x, y);
+        }
 
         public void DrawImage(Image img, int x, int y, int width, int height, int textureno = 0)
         {
@@ -3100,7 +3128,7 @@ namespace MissionPlanner.Controls
 
                     var newfontsize = calcfontsize(message, font, fontsize + 10, (SolidBrush) brush, Width - 50 - 50);
 
-                    var size = calcsize(message, newfontsize, (SolidBrush)Brushes.Red);
+                    var size = calcsize(message, newfontsize, (SolidBrush) brush);
 
                     drawstring(message, font, newfontsize, (SolidBrush) brush, size.Width / -2,
                         halfheight / 3);
@@ -3121,7 +3149,12 @@ namespace MissionPlanner.Controls
                         vibehitzone = new Rectangle(this.Width - 18 * fontsize, yPos[1], 40, fontsize * 2);
                     }
 
-                    if (vibex > 30 || vibey > 30 || vibez > 30)
+                    if (CustomVibeRenderer != null)
+                    {
+                        try { CustomVibeRenderer.Render(this, vibehitzone, fontsize, displayicons); }
+                        catch (Exception ex) { log.Error("Custom vibe renderer", ex); }
+                    }
+                    else if (vibex > 30 || vibey > 30 || vibez > 30)
                     {
 
                         if (vibex > 60 || vibey > 60 || vibez > 60)
@@ -3176,7 +3209,12 @@ namespace MissionPlanner.Controls
                         ekfhitzone = new Rectangle(this.Width - 23 * fontsize,yPos[1], 40, fontsize * 2);
                     }
 
-                    if (ekfstatus > 0.5)
+                    if (CustomEkfRenderer != null)
+                    {
+                        try { CustomEkfRenderer.Render(this, ekfhitzone, fontsize, displayicons); }
+                        catch (Exception ex) { log.Error("Custom ekf renderer", ex); }
+                    }
+                    else if (ekfstatus > 0.5)
                     {
                         if (ekfstatus > 0.8)
                         {

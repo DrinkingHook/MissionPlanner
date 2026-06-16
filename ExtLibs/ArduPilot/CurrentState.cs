@@ -86,6 +86,7 @@ namespace MissionPlanner
         private float _remotesnrdb;
 
         private float _sonarrange;
+        private int _rangefinderalt_index = int.MaxValue;
 
         private float _ter_alt;
 
@@ -502,6 +503,8 @@ namespace MissionPlanner
         public float targetairspeed { get; private set; }
 
         public bool lowairspeed { get; set; }
+        private float _cachedAirspeedMin = 0;
+        private DateTime _lastAirspeedMinCheck = DateTime.MinValue;
 
         [DisplayFieldName("asratio.Field")]
         [DisplayText("Airspeed Ratio")]
@@ -2347,6 +2350,23 @@ namespace MissionPlanner
             {
                 switch (mavLinkMessage.msgid)
                 {
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SIMSTATE:
+                        {
+                            var simstate = mavLinkMessage.ToStructure<MAVLink.mavlink_simstate_t>();
+                            lat = simstate.lat / 1e7;
+                            lng = simstate.lng / 1e7;
+                            roll = (float)(simstate.roll * MathHelper.rad2deg);
+                            pitch = (float)(simstate.pitch * MathHelper.rad2deg);
+                            yaw = (float)(simstate.yaw * MathHelper.rad2deg);
+                            gy = simstate.ygyro;
+                            gx = simstate.xgyro;
+                            gz = simstate.zgyro;
+                            ax = simstate.xacc;
+                            ay = simstate.yacc;
+                            az = simstate.zacc;
+                        }
+                        break;
+
                     case (uint)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED:
 
                         // hil mavlink 0.9
@@ -2791,6 +2811,10 @@ namespace MissionPlanner
 
                             sonarrange = sonar.distance;
                             sonarvoltage = sonar.voltage;
+
+                            // If we get this message, we prefer it over the DISTANCE_SENSOR message
+                            // (setting this to -1 prevents DISTANCE_SENSOR from updating sonarrange)
+                            _rangefinderalt_index = -1;
                         }
 
                         break;
@@ -2808,6 +2832,25 @@ namespace MissionPlanner
                             else if (sonar.id == 7) rangefinder8 = sonar.current_distance;
                             else if (sonar.id == 8) rangefinder9 = sonar.current_distance;
                             else if (sonar.id == 9) rangefinder10 = sonar.current_distance;
+
+                            // Record the first downward facing rangefinder for alt use
+                            bool is_downward_facing = (sonar.orientation == (byte)MAVLink.MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_PITCH_270);
+                            if (is_downward_facing && sonar.id < _rangefinderalt_index)
+                            {
+                                _rangefinderalt_index = sonar.id;
+                            }
+                            if (sonar.id == _rangefinderalt_index)
+                            {
+                                if (!is_downward_facing)
+                                {
+                                    // this sensor used to be downward facing, but no longer is
+                                    _rangefinderalt_index = int.MaxValue;
+                                }
+                                else
+                                {
+                                    sonarrange = sonar.current_distance / 100;
+                                }
+                            }
                         }
 
                         break;
@@ -3898,6 +3941,37 @@ namespace MissionPlanner
                             //This comes from the EKF, so it supposed to be correct
                             climbrate = vfr.climb;
                             gotVFR = true; // we have a vfr packet
+
+                            if ((timeSinceArmInAir > 0) && (DateTime.Now - _lastAirspeedMinCheck).TotalSeconds > 5)
+                            {
+                                try
+                                {
+                                    if (parent?.param != null)
+                                    {
+                                        if (parent.param.ContainsKey("AIRSPEED_MIN"))
+                                        {
+                                            _cachedAirspeedMin = (float)parent.param["AIRSPEED_MIN"].Value;
+                                        }
+                                        else if (parent.param.ContainsKey("ARSPD_FBW_MIN"))
+                                        {
+                                            _cachedAirspeedMin = (float)parent.param["ARSPD_FBW_MIN"].Value;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("Error getting AIRSPEED_MIN or ARSPD_FBW_MIN from param for lowairspeed handling", ex);
+                                }
+
+                                _lastAirspeedMinCheck = DateTime.Now;
+                            }
+
+                            lowairspeed = armed
+                                && (timeSinceArmInAir > 0)
+                                && (_cachedAirspeedMin > 0)
+                                && sensors_enabled.differential_pressure
+                                && sensors_health.differential_pressure
+                                && (vfr.airspeed < _cachedAirspeedMin);
                         }
 
                         break;

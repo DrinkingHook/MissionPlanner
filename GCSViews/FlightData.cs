@@ -1,8 +1,10 @@
 using DirectShowLib;
+using Dowding.Model;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.ArduPilot;
 using MissionPlanner.Controls;
 using MissionPlanner.GeoRef;
@@ -25,8 +27,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Dowding.Model;
-using Microsoft.Scripting.Utils;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
@@ -55,6 +55,7 @@ namespace MissionPlanner.GCSViews
         internal GMapMarker CurrentGMapMarker;
 
         internal PointLatLng MouseDownStart;
+        internal Point MouseDownStartLocal;
 
         //The file path of the selected script
         internal string selectedscript = "";
@@ -197,6 +198,8 @@ namespace MissionPlanner.GCSViews
             Do_Parachute,
             Engine_Start,
             Engine_Stop,
+            Terminate_Flight,
+            Format_SD_Card,
         }
 
         private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
@@ -741,6 +744,10 @@ namespace MissionPlanner.GCSViews
                 bool added = false;
                 foreach (TabPage tabPage in TabListOriginal)
                 {
+                    // skip the Quick tab if it is currently undocked into a popup window
+                    if (tabQuickDetached && tabPage == tabQuick)
+                        continue;
+
                     if (tabPage.Name == tabname && ((TabListDisplay.ContainsKey(tabname) && TabListDisplay[tabname] == true) || !TabListDisplay.ContainsKey(tabname)))
                     {
                         tabControlactions.TabPages.Add(tabPage);
@@ -762,7 +769,7 @@ namespace MissionPlanner.GCSViews
             loadTabControlActions();
 
             //we want to at least have one tabpage
-            if (tabControlactions.TabPages.Count == 0)
+            if (tabControlactions.TabPages.Count == 0 && !tabQuickDetached)
             {
                 tabControlactions.TabPages.Add(tabQuick);
                 tabControlactions.SelectedIndex = 0;
@@ -1667,6 +1674,24 @@ namespace MissionPlanner.GCSViews
 
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
+
+
+            if (CMB_action.Text == actions.Format_SD_Card.ToString())
+            {
+                 try
+                {
+                    //p1 and p2 must be 1 to initate SD card format
+                    MainV2.comPort.doCommandInt(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.STORAGE_FORMAT, 1, 1, 0, 0, 0, 0, 0);
+                    return;
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+                    return;
+                }
+            }
+
+
             try
             {
                 if (CMB_action.Text == actions.Trigger_Camera.ToString())
@@ -1746,6 +1771,13 @@ namespace MissionPlanner.GCSViews
                         if (MainV2.comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                             param1 = 1; // gyro
                         param3 = 1; // baro / airspeed
+                    }
+
+                    if (CMB_action.Text == actions.Terminate_Flight.ToString())
+                    {
+                        MainV2.comPort.doCommand(MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid, MAVLink.MAV_CMD.DO_FLIGHTTERMINATION, 1.0f, 0, 0, 0, 0, 0, 0);
+                        ((Control)sender).Enabled = true;
+                        return;
                     }
 
                     if (CMB_action.Text == actions.Preflight_Reboot_Shutdown.ToString())
@@ -2495,48 +2527,39 @@ namespace MissionPlanner.GCSViews
 
             CMB_setwp.Items.Add("0 (Home)");
 
+            int max = 0;
+
             if (MainV2.comPort.MAV.param["CMD_TOTAL"] != null)
             {
                 int wps = int.Parse(MainV2.comPort.MAV.param["CMD_TOTAL"].ToString());
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
             }
 
             if (MainV2.comPort.MAV.param["WP_TOTAL"] != null)
             {
                 int wps = int.Parse(MainV2.comPort.MAV.param["WP_TOTAL"].ToString());
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
             }
 
             if (MainV2.comPort.MAV.param["MIS_TOTAL"] != null)
             {
                 int wps = int.Parse(MainV2.comPort.MAV.param["MIS_TOTAL"].ToString());
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
             }
 
             if (MainV2.comPort.MAV.wps.Count > 0)
             {
                 int wps = MainV2.comPort.MAV.wps.Count;
-                for (int z = 1; z <= wps; z++)
-                {
-                    CMB_setwp.Items.Add(z.ToString());
-                }
 
-                return;
+                max = Math.Max(max, wps);
+            }
+
+            for (int z = 1; z <= max; z++)
+            {
+                CMB_setwp.Items.Add(z.ToString());
             }
         }
 
@@ -2915,6 +2938,7 @@ namespace MissionPlanner.GCSViews
         private void gMapControl1_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDownStart = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+            MouseDownStartLocal = e.Location;
             Console.WriteLine("gMapControl1_MouseDown "+ MouseDownStart);
 
             if (ModifierKeys == Keys.Control)
@@ -2953,13 +2977,26 @@ namespace MissionPlanner.GCSViews
         {
             if (e.Button == MouseButtons.Left)
             {
-                PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+                // incremental delta avoids direction lock near pole/singularity regions
+                int dx = e.X - MouseDownStartLocal.X;
+                int dy = e.Y - MouseDownStartLocal.Y;
 
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
+                if (dx == 0 && dy == 0)
+                    return;
 
-                gMapControl1.Position = new PointLatLng(center.Position.Lat + latdif,
-                    center.Position.Lng + lngdif);
+                double absLat = Math.Abs(gMapControl1.Position.Lat);
+                PointLatLng newCenter = gMapControl1.FromLocalToLatLng(
+                    gMapControl1.Width / 2 - dx,
+                    gMapControl1.Height / 2 - dy);
+
+                if (!double.IsNaN(newCenter.Lat) && !double.IsNaN(newCenter.Lng) &&
+                    !double.IsInfinity(newCenter.Lat) && !double.IsInfinity(newCenter.Lng))
+                {
+                    gMapControl1.Position = newCenter;
+                }
+
+                // consume this step (critical for stable drag)
+                MouseDownStartLocal = e.Location;
             }
             else
             {
