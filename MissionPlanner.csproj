@@ -259,9 +259,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Controls\DroneCANSubscriber.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Controls\DroneCANSubscriber.cs" />
     <Compile Update="Controls\ControlSensorsStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -289,36 +287,18 @@
     <Compile Update="Controls\MavFTPUI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigADSB.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigCubeID.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigADSB.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigCubeID.cs" />
     <Compile Update="GCSViews\ConfigurationView\ConfigFirmwareManifest.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigGPSOrder.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWCompass2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWIDs.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigAdvanced.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigInitialParams.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigOSD.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Controls\DroneCANParams.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigGPSOrder.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWCompass2.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWIDs.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigAdvanced.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigInitialParams.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigOSD.cs" />
+    <Compile Update="Controls\DroneCANParams.cs" />
     <Compile Update="GCSViews\ConfigurationView\ConfigParamLoading.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -328,21 +308,13 @@
     <Compile Update="GCSViews\ConfigurationView\ConfigSecureAP.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigSerial.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigREPL.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigSerial.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigREPL.cs" />
     <Compile Update="GCSViews\ConfigurationView\ConfigTradHeli4.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigDroneCAN.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigUserDefined.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigDroneCAN.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigUserDefined.cs" />
     <Compile Update="Joystick\JoystickAxis.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -397,9 +369,7 @@
     <None Include="plugins\example22-payloadconfig.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Update="Utilities\AirMarket.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Utilities\AirMarket.cs" />
     <None Include="plugins\example2-menu.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -482,9 +452,7 @@
     <Compile Update="Controls\MavlinkCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls\MavlinkCheckBoxBitMask.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Controls\MavlinkCheckBoxBitMask.cs" />
     <Compile Update="Controls\MavlinkComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -500,9 +468,7 @@
     <Compile Update="Controls\ServoOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GCSViews\SITL.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="GCSViews\SITL.cs" />
     <Compile Update="Controls\ToolStripConnectionControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -512,159 +478,59 @@
     <Compile Update="Controls\PreFlight\CheckListInput.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="GCSViews\FlightData.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\FlightPlanner.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\Help.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\InitialSetup.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\SoftwareConfig.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigTerminal.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigAC_Fence.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigAntennaTracker.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigArducopter.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigArduplane.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigArdurover.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigAteryx.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigAteryxSensors.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigCompassMot.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigESCCalibration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFailSafe.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFFT.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFirmware.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFlightModes.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFrameClassType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFrameType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFriendlyParams.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigFriendlyParamsAdv.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWAirspeed.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWBT.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWCompass.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWesp8266.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWOptFlow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWOSD.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWParachute.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigHWCAN.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigMandatory.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigMotorTest.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigMount.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigOptional.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigPlanner.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigPlannerAdv.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigRadioInput.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigRadioOutput.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigRawParams.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigSimplePids.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="GCSViews\ConfigurationView\ConfigTradHeli.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Joystick\JoystickSetup.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="GCSViews\FlightData.cs" />
+    <Compile Update="GCSViews\FlightPlanner.cs" />
+    <Compile Update="GCSViews\Help.cs" />
+    <Compile Update="GCSViews\InitialSetup.cs" />
+    <Compile Update="GCSViews\SoftwareConfig.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigTerminal.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigAC_Fence.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigAntennaTracker.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigArducopter.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigArduplane.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigArdurover.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigAteryx.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigAteryxSensors.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigCompassMot.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigESCCalibration.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFailSafe.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFFT.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFirmware.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFlightModes.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFrameClassType.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFrameType.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFriendlyParams.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigFriendlyParamsAdv.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWAirspeed.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWBT.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWCompass.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWesp8266.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWOptFlow.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWOSD.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWParachute.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWCAN.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigMandatory.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigMotorTest.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigMount.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigOptional.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigPlanner.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigPlannerAdv.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigRadioInput.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigRadioOutput.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigRawParams.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigSimplePids.cs" />
+    <Compile Update="GCSViews\ConfigurationView\ConfigTradHeli.cs" />
+    <Compile Update="Joystick\JoystickSetup.cs" />
     <Compile Update="Radio\Sikradio.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Swarm\Grid.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Swarm\Grid.cs" />
     <Compile Update="Swarm\Status.cs">
       <SubType>UserControl</SubType>
     </Compile>

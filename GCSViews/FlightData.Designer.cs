@@ -661,7 +661,7 @@ namespace MissionPlanner.GCSViews
             // 
             this.undockToolStripMenuItem.Name = "undockToolStripMenuItem";
             resources.ApplyResources(this.undockToolStripMenuItem, "undockToolStripMenuItem");
-            //this.undockToolStripMenuItem.Click += new System.EventHandler(this.undockDockToolStripMenuItem_Click);
+            this.undockToolStripMenuItem.Click += new System.EventHandler(this.undockDockToolStripMenuItem_Click);
             // 
             // bindingSourceQuickTab
             // 
