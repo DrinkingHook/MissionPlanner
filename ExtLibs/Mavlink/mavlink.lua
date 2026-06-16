@@ -93,6 +93,7 @@ messageName = {
     [11042] = 'ESC_TELEMETRY_21_TO_24',
     [11043] = 'ESC_TELEMETRY_25_TO_28',
     [11044] = 'ESC_TELEMETRY_29_TO_32',
+    [11050] = 'ENGINE_STATUS',
     [223] = 'COMMAND_INT_STAMPED',
     [224] = 'COMMAND_LONG_STAMPED',
     [8002] = 'SENS_POWER',
@@ -384,7 +385,6 @@ local enumEntryName = {
     ["HEADING_TYPE"] = {
         [0] = "HEADING_TYPE_COURSE_OVER_GROUND",
         [1] = "HEADING_TYPE_HEADING",
-        [2] = "HEADING_TYPE_DEFAULT",
     },
     ["MAV_CMD"] = {
         [16] = "MAV_CMD_NAV_WAYPOINT",
@@ -902,8 +902,6 @@ local enumEntryName = {
         [22] = "PLANE_MODE_QAUTOTUNE",
         [23] = "PLANE_MODE_QACRO",
         [24] = "PLANE_MODE_THERMAL",
-        [25] = "PLANE_MODE_LOITER_ALT_QLAND",
-        [26] = "PLANE_MODE_AUTOLAND",
     },
     ["COPTER_MODE"] = {
         [0] = "COPTER_MODE_STABILIZE",
@@ -931,7 +929,6 @@ local enumEntryName = {
         [25] = "COPTER_MODE_SYSTEMID",
         [26] = "COPTER_MODE_AUTOROTATE",
         [27] = "COPTER_MODE_AUTO_RTL",
-        [28] = "COPTER_MODE_TURTLE",
     },
     ["SUB_MODE"] = {
         [0] = "SUB_MODE_STABILIZE",
@@ -943,8 +940,6 @@ local enumEntryName = {
         [9] = "SUB_MODE_SURFACE",
         [16] = "SUB_MODE_POSHOLD",
         [19] = "SUB_MODE_MANUAL",
-        [20] = "SUB_MODE_MOTORDETECT",
-        [21] = "SUB_MODE_SURFTRAK",
     },
     ["ROVER_MODE"] = {
         [0] = "ROVER_MODE_MANUAL",
@@ -954,8 +949,6 @@ local enumEntryName = {
         [5] = "ROVER_MODE_LOITER",
         [6] = "ROVER_MODE_FOLLOW",
         [7] = "ROVER_MODE_SIMPLE",
-        [8] = "ROVER_MODE_DOCK",
-        [9] = "ROVER_MODE_CIRCLE",
         [10] = "ROVER_MODE_AUTO",
         [11] = "ROVER_MODE_RTL",
         [12] = "ROVER_MODE_SMART_RTL",
@@ -967,7 +960,6 @@ local enumEntryName = {
         [1] = "TRACKER_MODE_STOP",
         [2] = "TRACKER_MODE_SCAN",
         [3] = "TRACKER_MODE_SERVO_TEST",
-        [4] = "TRACKER_MODE_GUIDED",
         [10] = "TRACKER_MODE_AUTO",
         [16] = "TRACKER_MODE_INITIALIZING",
     },
@@ -3832,7 +3824,10 @@ f.RALLY_POINT_lng = ProtoField.new("lng (int32_t)", "mavlink_proto.RALLY_POINT_l
 f.RALLY_POINT_alt = ProtoField.new("alt (int16_t)", "mavlink_proto.RALLY_POINT_alt", ftypes.INT16, nil)
 f.RALLY_POINT_break_alt = ProtoField.new("break_alt (int16_t)", "mavlink_proto.RALLY_POINT_break_alt", ftypes.INT16, nil)
 f.RALLY_POINT_land_dir = ProtoField.new("land_dir (uint16_t)", "mavlink_proto.RALLY_POINT_land_dir", ftypes.UINT16, nil)
-f.RALLY_POINT_flags = ProtoField.new("flags (RALLY_FLAGS)", "mavlink_proto.RALLY_POINT_flags", ftypes.UINT8, enumEntryName.RALLY_FLAGS)
+f.RALLY_POINT_flags = ProtoField.new("flags (RALLY_FLAGS)", "mavlink_proto.RALLY_POINT_flags", ftypes.UINT8, nil)
+f.RALLY_POINT_flags_flagFAVORABLE_WIND = ProtoField.bool("mavlink_proto.RALLY_POINT_flags.FAVORABLE_WIND", "FAVORABLE_WIND", 5, nil, 1)
+f.RALLY_POINT_flags_flagLAND_IMMEDIATELY = ProtoField.bool("mavlink_proto.RALLY_POINT_flags.LAND_IMMEDIATELY", "LAND_IMMEDIATELY", 5, nil, 2)
+f.RALLY_POINT_flags_flagALT_FRAME_VALID = ProtoField.bool("mavlink_proto.RALLY_POINT_flags.ALT_FRAME_VALID", "ALT_FRAME_VALID", 5, nil, 4)
 
 f.RALLY_FETCH_POINT_target_system = ProtoField.new("target_system (uint8_t)", "mavlink_proto.RALLY_FETCH_POINT_target_system", ftypes.UINT8, nil)
 f.RALLY_FETCH_POINT_target_component = ProtoField.new("target_component (uint8_t)", "mavlink_proto.RALLY_FETCH_POINT_target_component", ftypes.UINT8, nil)
@@ -5271,6 +5266,18 @@ f.ESC_TELEMETRY_29_TO_32_count_0 = ProtoField.new("count[0] (uint16_t)", "mavlin
 f.ESC_TELEMETRY_29_TO_32_count_1 = ProtoField.new("count[1] (uint16_t)", "mavlink_proto.ESC_TELEMETRY_29_TO_32_count_1", ftypes.UINT16, nil)
 f.ESC_TELEMETRY_29_TO_32_count_2 = ProtoField.new("count[2] (uint16_t)", "mavlink_proto.ESC_TELEMETRY_29_TO_32_count_2", ftypes.UINT16, nil)
 f.ESC_TELEMETRY_29_TO_32_count_3 = ProtoField.new("count[3] (uint16_t)", "mavlink_proto.ESC_TELEMETRY_29_TO_32_count_3", ftypes.UINT16, nil)
+
+f.ENGINE_STATUS_oil_pressure = ProtoField.new("oil_pressure (uint16_t)", "mavlink_proto.ENGINE_STATUS_oil_pressure", ftypes.UINT16, nil)
+f.ENGINE_STATUS_lube_pressure = ProtoField.new("lube_pressure (uint16_t)", "mavlink_proto.ENGINE_STATUS_lube_pressure", ftypes.UINT16, nil)
+f.ENGINE_STATUS_fuel_quantity = ProtoField.new("fuel_quantity (uint16_t)", "mavlink_proto.ENGINE_STATUS_fuel_quantity", ftypes.UINT16, nil)
+f.ENGINE_STATUS_coolant_temp = ProtoField.new("coolant_temp (uint16_t)", "mavlink_proto.ENGINE_STATUS_coolant_temp", ftypes.UINT16, nil)
+f.ENGINE_STATUS_oil_temp = ProtoField.new("oil_temp (uint16_t)", "mavlink_proto.ENGINE_STATUS_oil_temp", ftypes.UINT16, nil)
+f.ENGINE_STATUS_turbo_pressure = ProtoField.new("turbo_pressure (uint16_t)", "mavlink_proto.ENGINE_STATUS_turbo_pressure", ftypes.UINT16, nil)
+f.ENGINE_STATUS_egt_0 = ProtoField.new("egt[0] (uint16_t)", "mavlink_proto.ENGINE_STATUS_egt_0", ftypes.UINT16, nil)
+f.ENGINE_STATUS_egt_1 = ProtoField.new("egt[1] (uint16_t)", "mavlink_proto.ENGINE_STATUS_egt_1", ftypes.UINT16, nil)
+f.ENGINE_STATUS_egt_2 = ProtoField.new("egt[2] (uint16_t)", "mavlink_proto.ENGINE_STATUS_egt_2", ftypes.UINT16, nil)
+f.ENGINE_STATUS_egt_3 = ProtoField.new("egt[3] (uint16_t)", "mavlink_proto.ENGINE_STATUS_egt_3", ftypes.UINT16, nil)
+f.ENGINE_STATUS_lambda = ProtoField.new("lambda (float)", "mavlink_proto.ENGINE_STATUS_lambda", ftypes.FLOAT, nil)
 
 f.COMMAND_INT_STAMPED_utc_time = ProtoField.new("utc_time (uint32_t)", "mavlink_proto.COMMAND_INT_STAMPED_utc_time", ftypes.UINT32, nil)
 f.COMMAND_INT_STAMPED_vehicle_timestamp = ProtoField.new("vehicle_timestamp (uint64_t)", "mavlink_proto.COMMAND_INT_STAMPED_vehicle_timestamp", ftypes.UINT64, nil)
@@ -12370,6 +12377,12 @@ function dissect_flags_LIMIT_MODULE(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagLIMIT_ALTITUDE"], tvbrange, value)
 end
 -- dissect flag field
+function dissect_flags_RALLY_FLAGS(tree, name, tvbrange, value)
+    tree:add_le(f[name .. "_flagFAVORABLE_WIND"], tvbrange, value)
+    tree:add_le(f[name .. "_flagLAND_IMMEDIATELY"], tvbrange, value)
+    tree:add_le(f[name .. "_flagALT_FRAME_VALID"], tvbrange, value)
+end
+-- dissect flag field
 function dissect_flags_GOPRO_HEARTBEAT_FLAGS(tree, name, tvbrange, value)
     tree:add_le(f[name .. "_flagGOPRO_FLAG_RECORDING"], tvbrange, value)
     tree:add_le(f[name .. "_flagGOPRO_HEARTBEAT_FLAGS_ENUM_END"], tvbrange, value)
@@ -14225,6 +14238,7 @@ function payload_fns.payload_175(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 18, 1)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.RALLY_POINT_flags, tvbrange, value)
+    dissect_flags_RALLY_FLAGS(subtree, "RALLY_POINT_flags", tvbrange, value)
 end
 -- dissect payload of message type RALLY_FETCH_POINT
 function payload_fns.payload_176(buffer, tree, msgid, offset, limit, pinfo)
@@ -18883,6 +18897,50 @@ function payload_fns.payload_11044(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 38, 2)
     value = tvbrange:le_uint()
     subtree = tree:add_le(f.ESC_TELEMETRY_29_TO_32_count_3, tvbrange, value)
+end
+-- dissect payload of message type ENGINE_STATUS
+function payload_fns.payload_11050(buffer, tree, msgid, offset, limit, pinfo)
+    local padded, field_offset, value, subtree, tvbrange
+    if (offset + 24 > limit) then
+        padded = buffer(0, limit):bytes()
+        padded:set_size(offset + 24)
+        padded = padded:tvb("Untruncated payload")
+    else
+        padded = buffer
+    end
+    tvbrange = padded(offset + 4, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_oil_pressure, tvbrange, value)
+    tvbrange = padded(offset + 6, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_lube_pressure, tvbrange, value)
+    tvbrange = padded(offset + 8, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_fuel_quantity, tvbrange, value)
+    tvbrange = padded(offset + 10, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_coolant_temp, tvbrange, value)
+    tvbrange = padded(offset + 12, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_oil_temp, tvbrange, value)
+    tvbrange = padded(offset + 14, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_turbo_pressure, tvbrange, value)
+    tvbrange = padded(offset + 16, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_egt_0, tvbrange, value)
+    tvbrange = padded(offset + 18, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_egt_1, tvbrange, value)
+    tvbrange = padded(offset + 20, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_egt_2, tvbrange, value)
+    tvbrange = padded(offset + 22, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_egt_3, tvbrange, value)
+    tvbrange = padded(offset + 0, 4)
+    value = tvbrange:le_float()
+    subtree = tree:add_le(f.ENGINE_STATUS_lambda, tvbrange, value)
 end
 -- dissect payload of message type COMMAND_INT_STAMPED
 function payload_fns.payload_223(buffer, tree, msgid, offset, limit, pinfo)
