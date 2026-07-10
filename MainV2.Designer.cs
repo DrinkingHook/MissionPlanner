@@ -52,6 +52,7 @@ namespace MissionPlanner
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
             this.MenuHeliSetup = new System.Windows.Forms.ToolStripButton();
+            this.MenuKstservo = new System.Windows.Forms.ToolStripButton();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.status1 = new MissionPlanner.Controls.Status();
@@ -75,7 +76,8 @@ namespace MissionPlanner
             this.MenuConnect,
             this.toolStripConnectionControl,
             this.MenuArduPilot,
-            this.MenuHeliSetup});
+            this.MenuHeliSetup,
+            this.MenuKstservo});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
@@ -203,6 +205,15 @@ namespace MissionPlanner
             this.MenuHeliSetup.Margin = new System.Windows.Forms.Padding(0);
             this.MenuHeliSetup.Name = "MenuHeliSetup";
             this.MenuHeliSetup.Click += new System.EventHandler(this.MenuHeliSetup_Click);
+            //
+            // MenuKstservo
+            //
+            this.MenuKstservo.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
+            this.MenuKstservo.ForeColor = System.Drawing.SystemColors.ControlLight;
+            this.MenuKstservo.Text = "舵机状态";
+            this.MenuKstservo.Margin = new System.Windows.Forms.Padding(0);
+            this.MenuKstservo.Name = "MenuKstservo";
+            this.MenuKstservo.Click += new System.EventHandler(this.MenuKstservo_Click);
             // 
             // menu
             // 
@@ -252,6 +263,7 @@ namespace MissionPlanner
         public System.Windows.Forms.ToolStripButton MenuInitConfig;
         public System.Windows.Forms.ToolStripButton MenuSimulation;
         public System.Windows.Forms.ToolStripButton MenuHeliSetup;
+        public System.Windows.Forms.ToolStripButton MenuKstservo;
         public System.Windows.Forms.ToolStripButton MenuConfigTune;
         public System.Windows.Forms.ToolStripButton MenuConnect;
         private Controls.ToolStripConnectionControl toolStripConnectionControl;

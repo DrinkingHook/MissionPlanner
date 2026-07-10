@@ -931,6 +931,38 @@ namespace MissionPlanner
         [GroupText("ESC")] public float esc16_rpm { get; set; }
         [GroupText("ESC")] public float esc16_temp { get; set; }
 
+        [GroupText("ServoStatus")] public float servo1_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo1_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo1_power { get; set; }
+
+        [GroupText("ServoStatus")] public float servo2_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo2_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo2_power { get; set; }
+
+        [GroupText("ServoStatus")] public float servo3_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo3_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo3_power { get; set; }
+
+        [GroupText("ServoStatus")] public float servo4_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo4_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo4_power { get; set; }
+
+        [GroupText("ServoStatus")] public float servo5_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo5_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo5_power { get; set; }
+
+        [GroupText("ServoStatus")] public float servo6_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo6_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo6_power { get; set; }
+
+        [GroupText("ServoStatus")] public float servo7_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo7_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo7_power { get; set; }
+
+        [GroupText("ServoStatus")] public float servo8_volt { get; set; }
+        [GroupText("ServoStatus")] public float servo8_curr { get; set; }
+        [GroupText("ServoStatus")] public float servo8_power { get; set; }
+
         [GroupText("RadioOut")]
         public float ch1percent
         {
@@ -2900,8 +2932,48 @@ namespace MissionPlanner
                             carb_fuel_quantity = engine.fuel_quantity;// 油位高度
                             carb_Turbo_pressure = engine.turbo_pressure;// 涡轮压力
                             carb_air_fuel_ratio = engine.lambda / 50.0f; //空燃比
+                            carb_GBOT = engine.gearbox_oil_temp; // 减速箱油温
                         }
                         break;
+
+                    case (uint)MAVLink.MAVLINK_MSG_ID.SERVO_STATUS:
+                        {
+                            var servo = mavLinkMessage.ToStructure<MAVLink.mavlink_servo_status_t>();
+                            // 解析第1路舵机
+                            servo1_volt = servo.voltage[0] / 100.0f; // cV -> V
+                            servo1_curr = servo.current[0] / 100.0f; // cA -> A
+                            servo1_power = servo.power[0] / 100.0f; // cW -> W
+                            // 解析第2路舵机
+                            servo2_volt = servo.voltage[1] / 100.0f;
+                            servo2_curr = servo.current[1] / 100.0f;
+                            servo2_power = servo.power[1] / 100.0f;
+                            // 解析第3路舵机
+                            servo3_volt = servo.voltage[2] / 100.0f;
+                            servo3_curr = servo.current[2] / 100.0f;
+                            servo3_power = servo.power[2] / 100.0f;
+                            // 解析第4路舵机
+                            servo4_volt = servo.voltage[3] / 100.0f;
+                            servo4_curr = servo.current[3] / 100.0f;
+                            servo4_power = servo.power[3] / 100.0f;
+                            // 解析第5路舵机
+                            servo5_volt = servo.voltage[4] / 100.0f;
+                            servo5_curr = servo.current[4] / 100.0f;
+                            servo5_power = servo.power[4] / 100.0f;
+                            // 解析第6路舵机
+                            servo6_volt = servo.voltage[5] / 100.0f;
+                            servo6_curr = servo.current[5] / 100.0f;
+                            servo6_power = servo.power[5] / 100.0f;
+                            // 解析第7路舵机
+                            servo7_volt = servo.voltage[6] / 100.0f;
+                            servo7_curr = servo.current[6] / 100.0f;
+                            servo7_power = servo.power[6] / 100.0f;
+                            // 解析第8路舵机
+                            servo8_volt = servo.voltage[7] / 100.0f;
+                            servo8_curr = servo.current[7] / 100.0f;
+                            servo8_power = servo.power[7] / 100.0f;
+                        }
+                        break;
+
                     case (uint)MAVLink.MAVLINK_MSG_ID.POWER_STATUS:
 
                         {

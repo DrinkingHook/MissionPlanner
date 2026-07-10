@@ -79,7 +79,7 @@ namespace wix
             if (args.Length > 1)
                 outputfilename = args[1];
 
-            string exepath = Path.GetFullPath(path) + Path.DirectorySeparatorChar + "MissionPlanner_for.exe";
+            string exepath = Path.GetFullPath(path) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
             string version = Assembly.LoadFile(exepath).GetName().Version.ToString();
 
             System.Diagnostics.FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(exepath);

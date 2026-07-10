@@ -1889,6 +1889,14 @@
       <field type="uint16_t" name="turbo_pressure" units="cPa">Turbocharger boost pressure</field>
       <field type="uint16_t[4]" name="egt" units="cdegC">Exhaust gas temperatures for 4 cylinders</field>
       <field type="float" name="lambda" units="ratio">Lambda value (1.0 = stoichiometric)</field>
+      <field type="uint16_t" name="gearbox_oil_temp" units="cdegC">Gearbox oil temperature</field>
+    </message>
+    <message id="11051" name="SERVO_STATUS">
+      <description>Servo status data including voltage, current and power for each servo channel.</description>
+      <field type="uint16_t[8]" name="voltage" units="cV">Servo voltage in centivolts</field>
+      <field type="uint16_t[8]" name="current" units="cA">Servo current in centiamps</field>
+      <field type="uint16_t[8]" name="power" units="cW">Servo power in centiwatts</field>
+      <field type="uint8_t" name="count">Number of active servos</field>
     </message>
   </messages>
 </mavlink>

@@ -94,6 +94,7 @@ messageName = {
     [11043] = 'ESC_TELEMETRY_25_TO_28',
     [11044] = 'ESC_TELEMETRY_29_TO_32',
     [11050] = 'ENGINE_STATUS',
+    [11051] = "SERVO_STATUS",
     [223] = 'COMMAND_INT_STAMPED',
     [224] = 'COMMAND_LONG_STAMPED',
     [8002] = 'SENS_POWER',
@@ -5369,6 +5370,11 @@ f.ENGINE_STATUS_egt_1 = ProtoField.new("egt[1] (uint16_t)", "mavlink_proto.ENGIN
 f.ENGINE_STATUS_egt_2 = ProtoField.new("egt[2] (uint16_t)", "mavlink_proto.ENGINE_STATUS_egt_2", ftypes.UINT16, nil)
 f.ENGINE_STATUS_egt_3 = ProtoField.new("egt[3] (uint16_t)", "mavlink_proto.ENGINE_STATUS_egt_3", ftypes.UINT16, nil)
 f.ENGINE_STATUS_lambda = ProtoField.new("lambda (float)", "mavlink_proto.ENGINE_STATUS_lambda", ftypes.FLOAT, nil)
+f.ENGINE_STATUS_gearbox_oil_temp = ProtoField.new("gearbox_oil_temp (uint16_t)", "mavlink_proto.ENGINE_STATUS_gearbox_oil_temp", ftypes.UINT16, nil)
+
+f.SERVO_STATUS_current      = ProtoField.new("current[8] (uint16_t)", "mavlink_proto.SERVO_STATUS_current", ftypes.UINT16, nil, base.DEC, nil, "Servo current (centiamps)")
+f.SERVO_STATUS_power        = ProtoField.new("power[8] (uint16_t)",  "mavlink_proto.SERVO_STATUS_power",   ftypes.UINT16, nil, base.DEC, nil, "Servo power (centiwatts)")
+f.SERVO_STATUS_count        = ProtoField.new("count (uint8_t)",      "mavlink_proto.SERVO_STATUS_count",    ftypes.UINT8,  nil, base.DEC, nil, "Number of active servos")
 
 f.COMMAND_INT_STAMPED_utc_time = ProtoField.new("utc_time (uint32_t)", "mavlink_proto.COMMAND_INT_STAMPED_utc_time", ftypes.UINT32, nil)
 f.COMMAND_INT_STAMPED_vehicle_timestamp = ProtoField.new("vehicle_timestamp (uint64_t)", "mavlink_proto.COMMAND_INT_STAMPED_vehicle_timestamp", ftypes.UINT64, nil)
@@ -19015,9 +19021,9 @@ end
 -- dissect payload of message type ENGINE_STATUS
 function payload_fns.payload_11050(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
-    if (offset + 24 > limit) then
+    if (offset + 26 > limit) then
         padded = buffer(0, limit):bytes()
-        padded:set_size(offset + 24)
+        padded:set_size(offset + 26)
         padded = padded:tvb("Untruncated payload")
     else
         padded = buffer
@@ -19055,7 +19061,40 @@ function payload_fns.payload_11050(buffer, tree, msgid, offset, limit, pinfo)
     tvbrange = padded(offset + 0, 4)
     value = tvbrange:le_float()
     subtree = tree:add_le(f.ENGINE_STATUS_lambda, tvbrange, value)
+    tvbrange = padded(offset + 24, 2)
+    value = tvbrange:le_uint()
+    subtree = tree:add_le(f.ENGINE_STATUS_gearbox_oil_temp, tvbrange, value)
 end
+-- SERVO_STATUS (ID 11051)
+payload_fns[11051] = function(buffer, pinfo, subtree)
+    local offset = 0
+
+    -- voltage[8]
+    local voltage_tree = subtree:add(f.SERVO_STATUS_voltage, buffer(offset, 16))
+    for i = 0, 7 do
+        voltage_tree:add(f.SERVO_STATUS_voltage, buffer(offset, 2), buffer(offset, 2):le_uint())
+        offset = offset + 2
+    end
+
+    -- current[8]
+    local current_tree = subtree:add(f.SERVO_STATUS_current, buffer(offset, 16))
+    for i = 0, 7 do
+        current_tree:add(f.SERVO_STATUS_current, buffer(offset, 2), buffer(offset, 2):le_uint())
+        offset = offset + 2
+    end
+
+    -- power[8]
+    local power_tree = subtree:add(f.SERVO_STATUS_power, buffer(offset, 16))
+    for i = 0, 7 do
+        power_tree:add(f.SERVO_STATUS_power, buffer(offset, 2), buffer(offset, 2):le_uint())
+        offset = offset + 2
+    end
+
+    -- count
+    subtree:add(f.SERVO_STATUS_count, buffer(offset, 1))
+    offset = offset + 1
+end
+
 -- dissect payload of message type COMMAND_INT_STAMPED
 function payload_fns.payload_223(buffer, tree, msgid, offset, limit, pinfo)
     local padded, field_offset, value, subtree, tvbrange
@@ -60466,9 +60505,9 @@ end
 function mavlink_proto.dissector(buffer,pinfo,tree)
     local offset = 0
     local msgCount = 0
-    
+
     -- loop through the buffer to extract all the messages in the buffer
-    while (offset < buffer:len()) 
+    while (offset < buffer:len())
     do
         msgCount = msgCount + 1
         local subtree = tree:add (mavlink_proto, buffer(), "MAVLink Protocol ("..buffer:len()..")")
@@ -60476,7 +60515,7 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
         -- decode protocol version first
         local version = buffer(offset,1):uint()
         local protocolString = ""
-    
+
     	while (true)
 		do
             protocolString = protocolVersions[version]
@@ -60488,9 +60527,9 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
                 if (unknownFrameBeginOffset == 0) then
                     unknownFrameBeginOffset = offset
                 end
-               
+
                 offset = offset + 1
-                
+
                 if (offset < buffer:len()) then
                     version = buffer(offset,1):uint()
                 else
@@ -60507,9 +60546,9 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
                     end
                     return
                 end
-            end	
+            end
         end
-        
+
         if (unknownFrameBeginOffset ~= 0) then
             pinfo.cols.info:append("Unknown message")
             size = offset - unknownFrameBeginOffset
@@ -60518,12 +60557,12 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
             -- jump to next loop
             break
         end
-        
+
         -- some Wireshark decoration
         pinfo.cols.protocol = protocolString
 
         -- HEADER ----------------------------------------
-    
+
         local msgid
         local length
         local incompatibility_flag
@@ -60534,29 +60573,29 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
                 local header = subtree:add(buffer(offset, 6), "Header")
                 header:add(f.magic, buffer(offset,1), version)
                 offset = offset + 1
-            
+
                 length = buffer(offset,1)
                 header:add(f.length, length)
                 offset = offset + 1
-            
+
                 local sequence = buffer(offset,1)
                 header:add(f.sequence, sequence)
                 offset = offset + 1
-            
+
                 local sysid = buffer(offset,1)
                 header:add(f.sysid, sysid)
                 offset = offset + 1
-        
+
                 local compid = buffer(offset,1)
                 header:add(f.compid, compid)
                 offset = offset + 1
-            
+
                 pinfo.cols.src = "System: "..tostring(sysid:uint())..', Component: '..tostring(compid:uint())
-        
+
                 msgid = buffer(offset,1):uint()
                 header:add(f.msgid, buffer(offset,1), msgid)
                 offset = offset + 1
-            else 
+            else
                 -- handle truncated header
                 pinfo.desegment_len = DESEGMENT_ONE_MORE_SEGMENT
                 pinfo.desegment_offset = offset
@@ -60590,7 +60629,7 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
                 msgid = buffer(offset,3):le_uint()
                 header:add(f.msgid, buffer(offset,3), msgid)
                 offset = offset + 3
-            else 
+            else
                 -- handle truncated header
                 pinfo.desegment_len = DESEGMENT_ONE_MORE_SEGMENT
                 pinfo.desegment_offset = offset
@@ -60600,8 +60639,8 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
 
 
         -- BODY ----------------------------------------
-    
-        -- dynamically call the type-specific payload dissector    
+
+        -- dynamically call the type-specific payload dissector
         local msgnr = msgid
         local dissect_payload_fn = "payload_"..tostring(msgnr)
         local fn = payload_fns[dissect_payload_fn]
@@ -60616,7 +60655,7 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
         if (offset + length < limit) then
             limit = offset + length
         end
-    
+
         if (fn == nil) then
             pinfo.cols.info:append ("Unknown message type   ")
             subtree:add_expert_info(PI_MALFORMED, PI_ERROR, "Unknown message type")
@@ -60666,7 +60705,7 @@ function mavlink_proto.dissector(buffer,pinfo,tree)
 end
 
 
-   
+
 -- bind protocol dissector to USER0 linktype
 
 wtap_encap = DissectorTable.get("wtap_encap")
@@ -60682,4 +60721,3 @@ udp_dissector_table:add(18570, mavlink_proto)
 -- register common Mavlink TCP ports
 
 DissectorTable.get("tcp.port"):add("5760-5763", mavlink_proto)
-

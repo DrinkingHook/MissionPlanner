@@ -1211,6 +1211,7 @@ namespace MissionPlanner
             MenuConnect.Image = displayicons.connect;
             //MenuHelp.Image = displayicons.help;
             MenuHeliSetup.Image = displayicons.HeliSetup;
+            MenuKstservo.Image = displayicons.HeliSetup;
 
 
             MenuFlightData.ForeColor = ThemeManager.TextColor;
@@ -1221,6 +1222,7 @@ namespace MissionPlanner
             MenuConnect.ForeColor = ThemeManager.TextColor;
             //MenuHelp.ForeColor = ThemeManager.TextColor;
             MenuHeliSetup.ForeColor = ThemeManager.TextColor;
+            MenuKstservo.ForeColor = ThemeManager.TextColor;
         }
 
         void adsb_UpdatePlanePosition(object sender, MissionPlanner.Utilities.adsb.PointLatLngAltHdg adsb)
@@ -1380,21 +1382,21 @@ namespace MissionPlanner
             MyView.ShowScreen("Simulation");
         }
 
-        // ´´½¨Ò»¸öÐÂµÄ´°ÌåÀà£¬³ÐÔØ ConfigTradHeli4
+        // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ÂµÄ´ï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½ï¿½ ConfigTradHeli4
         public class ConfigHeliForm : Form
         {
             public ConfigHeliForm()
             {
-                // ³õÊ¼»¯´°ÌåµÄ»ù±¾ÉèÖÃ
+                // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 //InitializeComponent1();
 
-                // ´´½¨ ConfigTradHeli4 ¿Ø¼þÊµÀý
+                // ï¿½ï¿½ï¿½ï¿½ ConfigTradHeli4 ï¿½Ø¼ï¿½Êµï¿½ï¿½
                 var heliConfigControl = new ConfigTradHeli4();
 
-                // ½« ConfigTradHeli4 ¿Ø¼þÌí¼Óµ½´°ÌåÖÐ
-                heliConfigControl.Dock = DockStyle.Fill;  // Ê¹ÆäÌî³äÕû¸ö´°Ìå
+                // ï¿½ï¿½ ConfigTradHeli4 ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                heliConfigControl.Dock = DockStyle.Fill;  // Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 this.Controls.Add(heliConfigControl);
-                heliConfigControl.Activate();  // È·±£ Activate ·½·¨±»Ö´ÐÐ
+                heliConfigControl.Activate();  // È·ï¿½ï¿½ Activate ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½
             }
         }
         InitialSetup initialSetup = new GCSViews.InitialSetup();
@@ -1403,21 +1405,31 @@ namespace MissionPlanner
         private void MenuHeliSetup_Click(object sender, EventArgs e)
         {
 
-            bool result = initialSetup.isHeli;
-            bool result1 = initialSetup.gotAllParams;
-            if (result && result1) { 
-            // ´´½¨¸¸´°ÌåÊµÀý
+            if (initialSetup.isHeli && initialSetup.gotAllParams) { 
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
                 var heliConfigForm = new ConfigHeliForm();
-                // ÏÔÊ¾¸Ã´°Ìå
-                heliConfigForm.Show();  // ÏÔÊ¾ÎªÄ£Ì¬´°¿Ú£¬×èÈûºóÐø²Ù×÷£¬»òÕßÊ¹ÓÃ Show() ½øÐÐ·ÇÄ£Ì¬ÏÔÊ¾
+                // ï¿½ï¿½Ê¾ï¿½Ã´ï¿½ï¿½ï¿½
+                heliConfigForm.Show();  // ï¿½ï¿½Ê¾ÎªÄ£Ì¬ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ Show() ï¿½ï¿½ï¿½Ð·ï¿½Ä£Ì¬ï¿½ï¿½Ê¾
             }
             else
             {
-                MessageBox.Show("ÇëÏÈÁ¬½Ó·É¿Ø");
+                MessageBox.Show("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·É¿ï¿½");
             }
 
         }
+        private void MenuKstservo_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                MessageBox.Show("è¯·å…ˆè¿žæŽ¥é£žæŽ§");
+                return;
+            }
 
+            var frm = new Controls.ServoStatus();
+            frm.RestoreStartupLocation();
+            frm.FormClosed += (a, e2) => frm.SaveStartupLocation();
+            frm.Show();
+        }
         private void MenuTuning_Click(object sender, EventArgs e)
         {
             if (Settings.Instance.GetBoolean("password_protect") == false)
