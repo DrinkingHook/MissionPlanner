@@ -1382,21 +1382,21 @@ namespace MissionPlanner
             MyView.ShowScreen("Simulation");
         }
 
-        // ����һ���µĴ����࣬���� ConfigTradHeli4
+        // 创建一个新的窗体类，承载 ConfigTradHeli4
         public class ConfigHeliForm : Form
         {
             public ConfigHeliForm()
             {
-                // ��ʼ������Ļ�������
+                // 初始化窗体的基本设置
                 //InitializeComponent1();
 
-                // ���� ConfigTradHeli4 �ؼ�ʵ��
+                // 创建 ConfigTradHeli4 控件实例
                 var heliConfigControl = new ConfigTradHeli4();
 
-                // �� ConfigTradHeli4 �ؼ����ӵ�������
-                heliConfigControl.Dock = DockStyle.Fill;  // ʹ�������������
+                // 将 ConfigTradHeli4 控件添加到窗体中
+                heliConfigControl.Dock = DockStyle.Fill;  // 使其填充整个窗体
                 this.Controls.Add(heliConfigControl);
-                heliConfigControl.Activate();  // ȷ�� Activate ������ִ��
+                heliConfigControl.Activate();  // 确保 Activate 方法被执行
             }
         }
         InitialSetup initialSetup = new GCSViews.InitialSetup();
@@ -1405,15 +1405,15 @@ namespace MissionPlanner
         private void MenuHeliSetup_Click(object sender, EventArgs e)
         {
 
-            if (initialSetup.isHeli && initialSetup.gotAllParams) { 
-            // ����������ʵ��
+            if (initialSetup.isHeli && initialSetup.gotAllParams) {
+                // 创建父窗体实例
                 var heliConfigForm = new ConfigHeliForm();
-                // ��ʾ�ô���
-                heliConfigForm.Show();  // ��ʾΪģ̬���ڣ�������������������ʹ�� Show() ���з�ģ̬��ʾ
+                // 显示该窗体
+                heliConfigForm.Show();  // 显示为模态窗口，阻塞后续操作，或者使用 Show() 进行非模态显示
             }
             else
             {
-                MessageBox.Show("�������ӷɿ�");
+                MessageBox.Show("请先连接飞控");
             }
 
         }
